@@ -1,0 +1,154 @@
+## Data frames em  R
+
+Exemplo de criação de Data Frame
+
+```{R}
+require(dplyr)
+meu_data_frame <- data.frame(
+  nome = c("Alice", "Bob", "Carol", "Ana", "João", "Carlos", "Patrícia", "Leonardo"),
+  idade = c(25, 30, 28, 20, 27, 50, 60, 45),
+  salario = c(5000, 6000, 5500, 8000, 2000, 3500, 10000, 3800 ), 
+  meio_de_transporte = c('onibus', 'bicicleta', 'onibus', 'carro', 'carro', 'onibus', 'onibus', 'bicicleta')
+)
+
+## Nomes de colunas do nosso data.frame não possuem espaço, podem ser separadas por "." ou "_".
+```
+
+Para visualizar as primeiras linhas do data frame
+
+```{R}
+head(meu_data_frame)
+```
+
+Para visualisar as ultimas linhas do data frame
+
+```{R}
+tail(meu_data_frame)
+```
+
+Para ter uma visão geral do dataframe você pode usar a função <mark>str()</mark>
+
+```{R}
+str(meu_data_frame)
+```
+
+## Acessando colunas
+
+```{R}
+# Voce pode acessar as colunas de um data frame usando o operador **$**
+meu_data_frame$nome
+```
+É possível acessar esses dados tambeém utilizando os colchetes []
+```{R}
+meu_data_frame[, "idade"]
+```
+
+## Adicionando variáveis(colunas)
+
+Para adicionar novas colunas em um data.frame podemos simplesmente
+atribuir seus valores através do seguinte código:
+
+```{R}
+meu_data_frame$genero <- c("F", "M", "F", "F", "M", "M", "F", "M")
+```
+
+## Subconjunto de Data Frames
+
+Para criar subconjuntos de Data Frames, você pode usar a função subset() ou colchetes [] com condições lógicas
+Seleciona pessoas com idade maior que 28 anos
+
+```{R}
+subconjunto_df <- meu_data_frame[meu_data_frame$idade > 28, ]
+subconjunto_df
+```
+
+Usando a função subset()
+
+```{R}
+subconjunto_df <- subset(meu_data_frame, idade > 28)
+subconjunto_df
+```
+
+```{R}
+subconjunto_combinado <- meu_data_frame[meu_data_frame$idade > 25 & meu_data_frame$idade < 30, ]
+subconjunto_combinado
+```
+Podemos acessar a classe indivídualmente de uma coluna do nosso data.frame utilizando <mark>class()</mark>
+
+```{R}
+class(meu_data_frame$nome)
+```
+
+```{R}
+class(meu_data_frame$idade)
+```
+
+Podemos acessar a estrutura dos nossos dados utilizando a função <mark>str()</mark>
+
+```{R}
+str(meu_data_frame)
+
+```
+As dimensões de um data.frame podem ser dadas por <mark>dim()</mark>
+
+```{R}
+dim(meu_data_frame)
+```
+
+Para sabermos o número de observações em um data.frame podemos utilizar a função <mark>nrow()</mark>
+
+```{R}
+# HAHAHAHAHAHAHA
+```
+
+## Lendo dados externos
+
+```{R}
+queimadas_Q1 <- read.csv("./FireWatch/datasets/FireWatch_Brazil_Q1_2024.csv")
+head(queimadas_Q1)
+
+
+
+# Imprima na tela as 9 primeiras observações.
+
+queimadas_Q1[(1:9), ]
+
+# Imprima as últimas 3 observações.
+reverso <- rev(queimadas_Q1)
+reverso[(1:3), ]
+
+# Quantas observações temos?
+total_obs <- nrow(queimadas_Q1)
+total_obs
+
+# Quantas variáveis temos?
+total_var <- ncol(queimadas_Q1)
+total_var
+
+# Apresente o sumário dos dados.
+sumario <- summary(queimadas_Q1)
+sumario
+
+# Apresente a estrutura dos dados.
+
+estrutura_dados <- str(queimadas_Q1)
+estrutura_dados
+
+# Quantos biomas estão sendo afetados?
+
+nrow(distinct(queimadas_Q1, bioma))
+
+# pode ser feito assim também
+biomas <- length(unique(queimadas_Q1$bioma))
+biomas
+
+# Qual a média de avg_numero_dias_sem_chuva para os estados da região sul e da região norte?
+regiao_sul <- c("PARANA", "SANTA CATARINA", "RIO GRANDE DO SUL")
+queimadas_sul <- subset(queimadas_Q1, estado %in% regiao_sul)
+mean(queimadas_sul$avg_numero_dias_sem_chuva)
+
+regiao_norte <- c("AMAZONAS", "AMAPA", "ACRE", "RONDONIA", "PARA")
+queimadas_norte <- subset(queimadas_Q1, estado %in% regiao_norte)
+mean(queimadas_norte$avg_numero_dias_sem_chuva)
+
+```
